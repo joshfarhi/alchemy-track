@@ -1,4 +1,4 @@
-import { GetFormatterForCurrency } from "@/lib/helpers";
+import { GetFormatterForUnit } from "@/lib/helpers";
 import prisma from "@/lib/prisma";
 import { OverviewQuerySchema } from "@/schema/overview";
 import { currentUser } from "@clerk/nextjs";
@@ -48,7 +48,7 @@ async function getTransactionsHistory(userId: string, from: Date, to: Date) {
     throw new Error("user settings not found");
   }
 
-  const formatter = GetFormatterForCurrency(userSettings.currency);
+  const formatter = GetFormatterForUnit(userSettings.Unit);
 
   const transactions = await prisma.transaction.findMany({
     where: {
@@ -65,7 +65,7 @@ async function getTransactionsHistory(userId: string, from: Date, to: Date) {
 
   return transactions.map((transaction) => ({
     ...transaction,
-    // lets format the amount with the user currency
+    // lets format the amount with the user Unit
     formattedAmount: formatter.format(transaction.amount),
   }));
 }

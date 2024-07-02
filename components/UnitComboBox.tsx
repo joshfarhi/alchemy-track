@@ -18,17 +18,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Currencies, Currency } from "@/lib/currencies";
+import { Units, Unit } from "@/lib/units";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { UserSettings } from "@prisma/client";
-import { UpdateUserCurrency } from "@/app/wizard/_actions/userSettings";
+import { UpdateUserUnit } from "@/app/wizard/_actions/userSettings";
 import { toast } from "sonner";
 
-export function CurrencyComboBox() {
+export function UnitComboBox() {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedOption, setSelectedOption] = React.useState<Currency | null>(
+  const [selectedOption, setSelectedOption] = React.useState<Unit | null>(
     null
   );
 
@@ -39,43 +39,43 @@ export function CurrencyComboBox() {
 
   React.useEffect(() => {
     if (!userSettings.data) return;
-    const userCurrency = Currencies.find(
-      (currency) => currency.value === userSettings.data.currency
+    const userUnit = Units.find(
+      (Unit) => Unit.value === userSettings.data.Unit
     );
-    if (userCurrency) setSelectedOption(userCurrency);
+    if (userUnit) setSelectedOption(userUnit);
   }, [userSettings.data]);
 
   const mutation = useMutation({
-    mutationFn: UpdateUserCurrency,
+    mutationFn: UpdateUserUnit,
     onSuccess: (data: UserSettings) => {
-      toast.success(`Currency updated successuflly 🎉`, {
-        id: "update-currency",
+      toast.success(`Unit updated successuflly 🎉`, {
+        id: "update-Unit",
       });
 
       setSelectedOption(
-        Currencies.find((c) => c.value === data.currency) || null
+        Units.find((c) => c.value === data.Unit) || null
       );
     },
     onError: (e) => {
       console.error(e);
       toast.error("Something went wrong", {
-        id: "update-currency",
+        id: "update-Unit",
       });
     },
   });
 
   const selectOption = React.useCallback(
-    (currency: Currency | null) => {
-      if (!currency) {
-        toast.error("Please select a currency");
+    (Unit: Unit | null) => {
+      if (!Unit) {
+        toast.error("Please select a Unit");
         return;
       }
 
-      toast.loading("Updating currency...", {
-        id: "update-currency",
+      toast.loading("Updating Unit...", {
+        id: "update-Unit",
       });
 
-      mutation.mutate(currency.value);
+      mutation.mutate(Unit.value);
     },
     [mutation]
   );
@@ -90,7 +90,7 @@ export function CurrencyComboBox() {
               className="w-full justify-start"
               disabled={mutation.isPending}
             >
-              {selectedOption ? <>{selectedOption.label}</> : <>Set currency</>}
+              {selectedOption ? <>{selectedOption.label}</> : <>Set Unit</>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0" align="start">
@@ -110,7 +110,7 @@ export function CurrencyComboBox() {
             className="w-full justify-start"
             disabled={mutation.isPending}
           >
-            {selectedOption ? <>{selectedOption.label}</> : <>Set currency</>}
+            {selectedOption ? <>{selectedOption.label}</> : <>Set Unit</>}
           </Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -128,27 +128,27 @@ function OptionList({
   setSelectedOption,
 }: {
   setOpen: (open: boolean) => void;
-  setSelectedOption: (status: Currency | null) => void;
+  setSelectedOption: (status: Unit | null) => void;
 }) {
   return (
     <Command>
-      <CommandInput placeholder="Filter currency..." />
+      <CommandInput placeholder="Filter Unit..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          {Currencies.map((currency: Currency) => (
+          {Units.map((Unit: Unit) => (
             <CommandItem
-              key={currency.value}
-              value={currency.value}
+              key={Unit.value}
+              value={Unit.value}
               onSelect={(value) => {
                 setSelectedOption(
-                  Currencies.find((priority) => priority.value === value) ||
+                  Units.find((priority) => priority.value === value) ||
                     null
                 );
                 setOpen(false);
               }}
             >
-              {currency.label}
+              {Unit.label}
             </CommandItem>
           ))}
         </CommandGroup>

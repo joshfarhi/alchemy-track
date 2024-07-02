@@ -54,17 +54,17 @@ type TransactionHistoryRow = GetTransactionHistoryResponseType[0];
 
 const columns: ColumnDef<TransactionHistoryRow>[] = [
   {
-    accessorKey: "category",
+    accessorKey: "strain",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category" />
+      <DataTableColumnHeader column={column} title="Strain" />
     ),
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
     cell: ({ row }) => (
       <div className="flex gap-2 capitalize">
-        {row.original.categoryIcon}
-        <div className="capitalize">{row.original.category}</div>
+        {row.original.strainIcon}
+        <div className="capitalize">{row.original.strain}</div>
       </div>
     ),
   },
@@ -170,27 +170,27 @@ function TransactionTable({ from, to }: Props) {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const categoriesOptions = useMemo(() => {
-    const categoriesMap = new Map();
+  const strainsOptions = useMemo(() => {
+    const strainsMap = new Map();
     history.data?.forEach((transaction) => {
-      categoriesMap.set(transaction.category, {
-        value: transaction.category,
-        label: `${transaction.categoryIcon} ${transaction.category}`,
+      strainsMap.set(transaction.strain, {
+        value: transaction.strain,
+        label: `${transaction.strainIcon} ${transaction.strain}`,
       });
     });
-    const uniqueCategories = new Set(categoriesMap.values());
-    return Array.from(uniqueCategories);
+    const uniqueStrains = new Set(strainsMap.values());
+    return Array.from(uniqueStrains);
   }, [history.data]);
 
   return (
     <div className="w-full">
       <div className="flex flex-wrap items-end justify-between gap-2 py-4">
         <div className="flex gap-2">
-          {table.getColumn("category") && (
+          {table.getColumn("strain") && (
             <DataTableFacetedFilter
-              title="Category"
-              column={table.getColumn("category")}
-              options={categoriesOptions}
+              title="Strain"
+              column={table.getColumn("strain")}
+              options={strainsOptions}
             />
           )}
           {table.getColumn("type") && (
@@ -211,8 +211,8 @@ function TransactionTable({ from, to }: Props) {
             className="ml-auto h-8 lg:flex"
             onClick={() => {
               const data = table.getFilteredRowModel().rows.map((row) => ({
-                category: row.original.category,
-                categoryIcon: row.original.categoryIcon,
+                strain: row.original.strain,
+                strainIcon: row.original.strainIcon,
                 description: row.original.description,
                 type: row.original.type,
                 amount: row.original.amount,

@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     throw new Error(queryParams.error.message);
   }
 
-  const stats = await getCategoriesStats(
+  const stats = await getStrainsStats(
     user.id,
     queryParams.data.from,
     queryParams.data.to
@@ -27,13 +27,13 @@ export async function GET(request: Request) {
   return Response.json(stats);
 }
 
-export type GetCategoriesStatsResponseType = Awaited<
-  ReturnType<typeof getCategoriesStats>
+export type GetStrainsStatsResponseType = Awaited<
+  ReturnType<typeof getStrainsStats>
 >;
 
-async function getCategoriesStats(userId: string, from: Date, to: Date) {
+async function getStrainsStats(userId: string, from: Date, to: Date) {
   const stats = await prisma.transaction.groupBy({
-    by: ["type", "category", "categoryIcon"],
+    by: ["type", "strain", "strainIcon"],
     where: {
       userId,
       date: {

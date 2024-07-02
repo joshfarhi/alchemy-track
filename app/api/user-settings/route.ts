@@ -20,12 +20,12 @@ export async function GET(request: Request) {
     userSettings = await prisma.userSettings.create({
       data: {
         userId: user.id,
-        currency: "USD",
+        Unit: "grams",
       },
     });
   }
 
-  // Revalidate the home page that uses the user currency
+  // Revalidate the home page that uses the user Unit
   revalidatePath("/");
   return Response.json(userSettings);
 }

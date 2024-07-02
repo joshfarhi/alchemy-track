@@ -1,11 +1,11 @@
 "use client";
 
-import { GetCategoriesStatsResponseType } from "@/app/api/stats/categories/route";
+import { GetStrainsStatsResponseType } from "@/app/api/stats/strains/route";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { DateToUTCDate, GetFormatterForCurrency } from "@/lib/helpers";
+import { DateToUTCDate, GetFormatterForUnit } from "@/lib/helpers";
 import { TransactionType } from "@/lib/types";
 import { UserSettings } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
@@ -17,32 +17,32 @@ interface Props {
   to: Date;
 }
 
-function CategoriesStats({ userSettings, from, to }: Props) {
-  const statsQuery = useQuery<GetCategoriesStatsResponseType>({
-    queryKey: ["overview", "stats", "categories", from, to],
+function StrainsStats({ userSettings, from, to }: Props) {
+  const statsQuery = useQuery<GetStrainsStatsResponseType>({
+    queryKey: ["overview", "stats", "strains", from, to],
     queryFn: () =>
       fetch(
-        `/api/stats/categories?from=${DateToUTCDate(from)}&to=${DateToUTCDate(
+        `/api/stats/strains?from=${DateToUTCDate(from)}&to=${DateToUTCDate(
           to
         )}`
       ).then((res) => res.json()),
   });
 
   const formatter = useMemo(() => {
-    return GetFormatterForCurrency(userSettings.currency);
-  }, [userSettings.currency]);
+    return GetFormatterForUnit(userSettings.Unit);
+  }, [userSettings.Unit]);
 
   return (
     <div className="flex w-full flex-wrap gap-2 md:flex-nowrap">
       <SkeletonWrapper isLoading={statsQuery.isFetching}>
-        <CategoriesCard
+        <StrainsCard
           formatter={formatter}
           type="income"
           data={statsQuery.data || []}
         />
       </SkeletonWrapper>
       <SkeletonWrapper isLoading={statsQuery.isFetching}>
-        <CategoriesCard
+        <StrainsCard
           formatter={formatter}
           type="expense"
           data={statsQuery.data || []}
@@ -52,16 +52,16 @@ function CategoriesStats({ userSettings, from, to }: Props) {
   );
 }
 
-export default CategoriesStats;
+export default StrainsStats;
 
-function CategoriesCard({
+function StrainsCard({
   data,
   type,
   formatter,
 }: {
   type: TransactionType;
   formatter: Intl.NumberFormat;
-  data: GetCategoriesStatsResponseType;
+  data: GetStrainsStatsResponseType;
 }) {
   const filteredData = data.filter((el) => el.type === type);
   const total = filteredData.reduce(
@@ -73,7 +73,7 @@ function CategoriesCard({
     <Card className="h-80 w-full col-span-6">
       <CardHeader>
         <CardTitle className="grid grid-flow-row justify-between gap-2 text-muted-foreground md:grid-flow-col">
-          {type === "income" ? "Incomes" : "Expenses"} by category
+          {type === "income" ? "Incomes" : "Expenses"} by strain
         </CardTitle>
       </CardHeader>
 
@@ -96,17 +96,17 @@ function CategoriesCard({
                 const percentage = (amount * 100) / (total || amount);
 
                 return (
-                  <div key={item.category} className="flex flex-col gap-2">
+                  <div key={item.strain} className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center text-gray-400">
-                        {item.categoryIcon} {item.category}
+                        {item.strainIcon} {item.strain}
                         <span className="ml-2 text-xs text-muted-foreground">
                           ({percentage.toFixed(0)}%)
                         </span>
                       </span>
 
                       <span className="text-sm text-gray-400">
-                        {formatter.format(amount)}
+                        {/* {formatter.format(amount)} */}
                       </span>
                     </div>
 

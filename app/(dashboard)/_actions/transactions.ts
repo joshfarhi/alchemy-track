@@ -19,16 +19,16 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
     redirect("/sign-in");
   }
 
-  const { amount, category, date, description, type } = parsedBody.data;
-  const categoryRow = await prisma.category.findFirst({
+  const { amount, strain, date, description, type } = parsedBody.data;
+  const strainRow = await prisma.strain.findFirst({
     where: {
       userId: user.id,
-      name: category,
+      name: strain,
     },
   });
 
-  if (!categoryRow) {
-    throw new Error("category not found");
+  if (!strainRow) {
+    throw new Error("strain not found");
   }
 
   // NOTE: don't make confusion between $transaction ( prisma ) and prisma.transaction (table)
@@ -42,8 +42,8 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
         date,
         description: description || "",
         type,
-        category: categoryRow.name,
-        categoryIcon: categoryRow.icon,
+        strain: strainRow.name,
+        strainIcon: strainRow.icon,
       },
     }),
 

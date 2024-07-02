@@ -3,7 +3,7 @@
 import { GetBalanceStatsResponseType } from "@/app/api/stats/balance/route";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { Card } from "@/components/ui/card";
-import { DateToUTCDate, GetFormatterForCurrency } from "@/lib/helpers";
+import { DateToUTCDate, GetFormatterForUnit } from "@/lib/helpers";
 import { UserSettings } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
@@ -26,8 +26,8 @@ function StatsCards({ from, to, userSettings }: Props) {
   });
 
   const formatter = useMemo(() => {
-    return GetFormatterForCurrency(userSettings.currency);
-  }, [userSettings.currency]);
+    return GetFormatterForUnit(userSettings.Unit);
+  }, [userSettings.Unit]);
 
   const income = statsQuery.data?.income || 0;
   const expense = statsQuery.data?.expense || 0;
@@ -75,23 +75,26 @@ function StatsCards({ from, to, userSettings }: Props) {
 export default StatsCards;
 
 function StatCard({
-  formatter,
+  // formatter,
   value,
   title,
   icon,
 }: {
-  formatter: Intl.NumberFormat;
+  // formatter: Intl.NumberFormat;
   icon: ReactNode;
   title: String;
   value: number;
 }) {
-  const formatFn = useCallback(
-    (value: number) => {
-      return formatter.format(value);
-    },
-    [formatter]
-  );
-
+  // const formatFn = useCallback(
+  //   (value: number) => {
+  //     return formatter.format(value);
+  //   },
+  //   [formatter]
+  // );
+  const formatFn = (value: number) => {
+    // You can provide your custom formatting logic here if needed
+    return value.toString();
+  };
   return (
     <Card className="flex h-24 w-full items-center gap-2 p-4">
       {icon}

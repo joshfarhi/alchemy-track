@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteCategory } from "@/app/(dashboard)/_actions/categories";
+import { DeleteStrain } from "@/app/(dashboard)/_actions/strains";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,34 +13,34 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { TransactionType } from "@/lib/types";
-import { Category } from "@prisma/client";
+import { Strain } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { ReactNode } from "react";
 import { toast } from "sonner";
 
 interface Props {
   trigger: ReactNode;
-  category: Category;
+  strain: Strain;
 }
 
-function DeleteCategoryDialog({ category, trigger }: Props) {
-  const categoryIdentifier = `${category.name}-${category.type}`;
+function DeleteStrainDialog({ strain, trigger }: Props) {
+  const strainIdentifier = `${strain.name}-${strain.type}`;
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: DeleteCategory,
+    mutationFn: DeleteStrain,
     onSuccess: async () => {
-      toast.success("Category deleted successfully", {
-        id: categoryIdentifier,
+      toast.success("Strain deleted successfully", {
+        id: strainIdentifier,
       });
 
       await queryClient.invalidateQueries({
-        queryKey: ["categories"],
+        queryKey: ["strains"],
       });
     },
     onError: () => {
       toast.error("Something went wrong", {
-        id: categoryIdentifier,
+        id: strainIdentifier,
       });
     },
   });
@@ -52,19 +52,19 @@ function DeleteCategoryDialog({ category, trigger }: Props) {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            category
+            strain
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
-              toast.loading("Deleting category...", {
-                id: categoryIdentifier,
+              toast.loading("Deleting strain...", {
+                id: strainIdentifier,
               });
               deleteMutation.mutate({
-                name: category.name,
-                type: category.type as TransactionType,
+                name: strain.name,
+                type: strain.type as TransactionType,
               });
             }}
           >
@@ -76,4 +76,4 @@ function DeleteCategoryDialog({ category, trigger }: Props) {
   );
 }
 
-export default DeleteCategoryDialog;
+export default DeleteStrainDialog;

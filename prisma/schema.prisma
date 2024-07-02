@@ -15,10 +15,10 @@ datasource db {
 
 model UserSettings {
   userId   String @id
-  currency String
+  Unit String
 }
 
-model Category {
+model Strain {
   createdAt DateTime @default(now())
   name      String
   userId    String
@@ -39,8 +39,8 @@ model Transaction {
   userId      String
   type        String   @default("income")
 
-  category     String
-  categoryIcon String
+  strain     String
+  strainIcon String
 }
 
 model MonthHistory {

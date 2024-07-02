@@ -30,7 +30,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import CategoryPicker from "@/app/(dashboard)/_components/CategoryPicker";
+import StrainPicker from "@/app/(dashboard)/_components/StrainPicker";
 import {
   Popover,
   PopoverContent,
@@ -59,9 +59,9 @@ function CreateTransactionDialog({ trigger, type }: Props) {
     },
   });
   const [open, setOpen] = useState(false);
-  const handleCategoryChange = useCallback(
+  const handleStrainChange = useCallback(
     (value: string) => {
-      form.setValue("category", value);
+      form.setValue("strain", value);
     },
     [form]
   );
@@ -80,7 +80,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
         description: "",
         amount: 0,
         date: new Date(),
-        category: undefined,
+        strain: undefined,
       });
 
       // After creating a transaction, we need to invalidate the overview query which will refetch data in the homepage
@@ -158,18 +158,18 @@ function CreateTransactionDialog({ trigger, type }: Props) {
             <div className="flex items-center justify-between gap-2">
               <FormField
                 control={form.control}
-                name="category"
+                name="strain"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>Strain</FormLabel>
                     <FormControl>
-                      <CategoryPicker
+                      <StrainPicker
                         type={type}
-                        onChange={handleCategoryChange}
+                        onChange={handleStrainChange}
                       />
                     </FormControl>
                     <FormDescription>
-                      Select a category for this transaction
+                      Select a strain for this transaction
                     </FormDescription>
                   </FormItem>
                 )}

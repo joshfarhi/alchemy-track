@@ -4,7 +4,7 @@ import HistoryPeriodSelector from "@/app/(dashboard)/_components/HistoryPeriodSe
 import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GetFormatterForCurrency } from "@/lib/helpers";
+import { GetFormatterForUnit } from "@/lib/helpers";
 import { Period, Timeframe } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { UserSettings } from "@prisma/client";
@@ -29,8 +29,8 @@ function History({ userSettings }: { userSettings: UserSettings }) {
   });
 
   const formatter = useMemo(() => {
-    return GetFormatterForCurrency(userSettings.currency);
-  }, [userSettings.currency]);
+    return GetFormatterForUnit(userSettings.Unit);
+  }, [userSettings.Unit]);
 
   const historyDataQuery = useQuery({
     queryKey: ["overview", "history", timeframe, period],
@@ -81,7 +81,7 @@ function History({ userSettings }: { userSettings: UserSettings }) {
                 <BarChart
                   height={300}
                   data={historyDataQuery.data}
-                  barCategoryGap={5}
+                  barStrainGap={5}
                 >
                   <defs>
                     <linearGradient id="incomeBar" x1="0" y1="0" x2="0" y2="1">
@@ -244,7 +244,7 @@ function TooltipRow({
             preserveValue
             end={value}
             decimals={0}
-            formattingFn={formattingFn}
+            // formattingFn={formattingFn}
             className="text-sm"
           />
         </div>

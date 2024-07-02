@@ -1,4 +1,4 @@
-import { Currencies } from "@/lib/currencies";
+import { Units } from "@/lib/units";
 
 export function DateToUTCDate(date: Date) {
   return new Date(
@@ -14,11 +14,14 @@ export function DateToUTCDate(date: Date) {
   );
 }
 
-export function GetFormatterForCurrency(currency: string) {
-  const locale = Currencies.find((c) => c.value === currency)?.locale;
+// export function GetFormatterForUnit(unit: string) {
+//   const locale = Units.find((c) => c.value === unit)?.locale;
 
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-  });
+//   return new Intl.NumberFormat(locale, {
+//     style: "unit",
+//     unit,
+//   });
+// }
+export function GetFormatterForUnit(unit: string) {
+  return unit;
 }
