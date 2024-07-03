@@ -110,35 +110,18 @@ function CreateTransactionDialog({ trigger, type }: Props) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Create a new{" "}
+            Update Inventory{" "}
             <span
               className={cn(
                 "m-1",
                 type === "income" ? "text-emerald-500" : "text-red-500"
               )}
             >
-              {type}
             </span>
-            transaction
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input defaultValue={""} {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Transaction description (optional)
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="amount"
@@ -146,7 +129,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                 <FormItem>
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
-                    <Input defaultValue={0} type="number" {...field} />
+                    <Input defaultValue={0} min={-Infinity} {...field} />
                   </FormControl>
                   <FormDescription>
                     Transaction amount (required)
@@ -217,6 +200,22 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                   </FormItem>
                 )}
               />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Notes</FormLabel>
+                  <FormControl>
+                    <Input defaultValue={""} {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Transaction notes (optional)
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
             </div>
           </form>
         </Form>

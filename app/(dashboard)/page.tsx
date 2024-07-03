@@ -36,13 +36,13 @@ async function page() {
                   variant={"outline"}
                   className="border-emerald-500 bg-emerald-950 text-white hover:bg-emerald-700 hover:text-white"
                 >
-                  New income 🤑
+                 Update Inventory
                 </Button>
               }
               type="income"
             />
 
-            <CreateTransactionDialog
+            {/* <CreateTransactionDialog
               trigger={
                 <Button
                   variant={"outline"}
@@ -52,7 +52,7 @@ async function page() {
                 </Button>
               }
               type="expense"
-            />
+            /> */}
           </div>
         </div>
       </div>
