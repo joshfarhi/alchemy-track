@@ -1,5 +1,5 @@
 export const Units = [
-  { value: "grams", label: "Grams (g)", locale: "en-US" },
+  { value: "ounces", label: "Ounces (Oz)", locale: "en-US" },
   { value: "pounds", label: "Pounds (lbs)", locale: "en-US" }
 ];
 
