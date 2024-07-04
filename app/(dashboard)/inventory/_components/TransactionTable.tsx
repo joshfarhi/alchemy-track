@@ -41,7 +41,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DeleteTransactionDialog from "@/app/(dashboard)/transactions/_components/DeleteTransactionDialog";
+import DeleteTransactionDialog from "@/app/(dashboard)/inventory/_components/DeleteTransactionDialog";
 
 interface Props {
   from: Date;

@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteTransaction } from "@/app/(dashboard)/transactions/_actions/deleteTransaction";
+import { DeleteTransaction } from "@/app/(dashboard)/inventory/_actions/deleteTransaction";
 import {
   AlertDialog,
   AlertDialogAction,

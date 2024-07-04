@@ -1,6 +1,6 @@
 "use client";
 
-import TransactionTable from "@/app/(dashboard)/transactions/_components/TransactionTable";
+import TransactionTable from "@/app/(dashboard)/inventory/_components/TransactionTable";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { MAX_DATE_RANGE_DAYS } from "@/lib/constants";
 import { differenceInDays, startOfMonth } from "date-fns";
@@ -17,7 +17,7 @@ function TransactionsPage() {
       <div className="border-b bg-card">
         <div className="container flex flex-wrap items-center justify-between gap-6 py-8">
           <div>
-            <p className="text-3xl font-bold">Transactions history</p>
+            <p className="text-3xl font-bold">Inventory</p>
           </div>
           <DateRangePicker
             initialDateFrom={dateRange.from}

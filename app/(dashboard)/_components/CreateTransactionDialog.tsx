@@ -110,16 +110,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Create a new{" "}
-            <span
-              className={cn(
-                "m-1",
-                type === "income" ? "text-emerald-500" : "text-red-500"
-              )}
-            >
-              {type}
-            </span>
-            transaction
+            Add to inventory
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
