@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import StrainPicker from "@/app/(dashboard)/_components/StrainPicker";
+import GrowerPicker from "@/app/(dashboard)/_components/GrowerPicker";
 import {
   Popover,
   PopoverContent,
@@ -66,6 +67,13 @@ function CreateTransactionDialog({ trigger, type }: Props) {
     [form]
   );
 
+  const handleGrowerChange = useCallback(
+    (value: string) => {
+      form.setValue("grower", value);
+    },
+    [form]
+  );
+
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -81,9 +89,9 @@ function CreateTransactionDialog({ trigger, type }: Props) {
         amount: 0,
         date: new Date(),
         strain: undefined,
+        grower: undefined,
       });
 
-      // After creating a transaction, we need to invalidate the overview query which will refetch data in the homepage
       queryClient.invalidateQueries({
         queryKey: ["overview"],
       });
@@ -161,6 +169,25 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                     </FormControl>
                     <FormDescription>
                       Select a strain for this Intake
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="grower"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Grower</FormLabel>
+                    <FormControl>
+                      <GrowerPicker
+                        type={type}
+                        onChange={handleGrowerChange}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Select a grower for this Intake
                     </FormDescription>
                   </FormItem>
                 )}
