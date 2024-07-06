@@ -77,7 +77,7 @@ function StrainList({ type }: { type: TransactionType }) {
                 <TrendingUp className="h-12 w-12 items-center rounded-lg bg-emerald-400/10 p-2 text-emerald-500" />
               )}
               <div>
-                {type === "income" ? "Incomes" : "Expenses"} strains
+                Strains
                 <div className="text-sm text-muted-foreground">
                   Sorted by name
                 </div>

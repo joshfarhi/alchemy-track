@@ -73,7 +73,7 @@ function StrainsCard({
     <Card className="h-80 w-full col-span-6">
       <CardHeader>
         <CardTitle className="grid grid-flow-row justify-between gap-2 text-muted-foreground md:grid-flow-col">
-          {type === "income" ? "Incomes" : "Expenses"} by strain
+          {type === "income" ? "Pushed" : "d/s"} by strain
         </CardTitle>
       </CardHeader>
 

@@ -62,14 +62,14 @@ function History({ userSettings }: { userSettings: UserSettings }) {
                 className="flex items-center gap-2 text-sm"
               >
                 <div className="h-4 w-4 rounded-full bg-emerald-500"></div>
-                Income
+                Sold
               </Badge>
               <Badge
                 variant={"outline"}
                 className="flex items-center gap-2 text-sm"
               >
                 <div className="h-4 w-4 rounded-full bg-red-500"></div>
-                Expense
+                Pulled
               </Badge>
             </div>
           </CardTitle>
