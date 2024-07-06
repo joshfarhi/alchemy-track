@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/table";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { DataTableColumnHeader } from "@/components/datatable/ColumnHeader";
-import { cn } from "@/lib/utils";
 import { DataTableFacetedFilter } from "@/components/datatable/FacetedFilters";
 import { Button } from "@/components/ui/button";
 import { DataTableViewOptions } from "@/components/datatable/ColumnToggle";
@@ -54,6 +53,13 @@ type TransactionHistoryRow = GetTransactionHistoryResponseType[0];
 
 const columns: ColumnDef<TransactionHistoryRow>[] = [
   {
+    accessorKey: "quantity",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Quantity" />
+    ),
+    cell: ({ row }) => <div>{row.original.quantity}</div>,
+  },
+  {
     accessorKey: "strain",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Strain" />
@@ -69,17 +75,28 @@ const columns: ColumnDef<TransactionHistoryRow>[] = [
     ),
   },
   {
-    accessorKey: "description",
+    accessorKey: "grower",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Grower" />
+    ),
+    cell: ({ row }) => <div>{row.original.grower}</div>,
+  },
+  {
+    accessorKey: "amountPaid",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Amount Paid" />
     ),
     cell: ({ row }) => (
-      <div className="capitalize">{row.original.description}</div>
+      <p className="text-md rounded-lg bg-gray-400/5 p-2 text-center font-medium">
+        {row.original.formattedAmountPaid}
+      </p>
     ),
   },
   {
     accessorKey: "date",
-    header: "Date",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date" />
+    ),
     cell: ({ row }) => {
       const date = new Date(row.original.date);
       const formattedDate = date.toLocaleDateString("default", {
@@ -90,38 +107,6 @@ const columns: ColumnDef<TransactionHistoryRow>[] = [
       });
       return <div className="text-muted-foreground">{formattedDate}</div>;
     },
-  },
-  {
-    accessorKey: "type",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Type" />
-    ),
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-    cell: ({ row }) => (
-      <div
-        className={cn(
-          "capitalize rounded-lg text-center p-2",
-          row.original.type === "income" &&
-            "bg-emerald-400/10 text-emerald-500",
-          row.original.type === "expense" && "bg-red-400/10 text-red-500"
-        )}
-      >
-        {row.original.type}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Amount" />
-    ),
-    cell: ({ row }) => (
-      <p className="text-md rounded-lg bg-gray-400/5 p-2 text-center font-medium">
-        {row.original.formattedAmount}
-      </p>
-    ),
   },
   {
     id: "actions",
@@ -168,6 +153,7 @@ function TransactionTable({ from, to }: Props) {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    enableMultiSort: true,
   });
 
   const strainsOptions = useMemo(() => {
@@ -182,6 +168,11 @@ function TransactionTable({ from, to }: Props) {
     return Array.from(uniqueStrains);
   }, [history.data]);
 
+  const growerOptions = useMemo(() => {
+    const growersSet = new Set(history.data?.map(t => t.grower) || []);
+    return Array.from(growersSet).map(grower => ({ value: grower, label: grower }));
+  }, [history.data]);
+
   return (
     <div className="w-full">
       <div className="flex flex-wrap items-end justify-between gap-2 py-4">
@@ -193,14 +184,11 @@ function TransactionTable({ from, to }: Props) {
               options={strainsOptions}
             />
           )}
-          {table.getColumn("type") && (
+          {table.getColumn("grower") && (
             <DataTableFacetedFilter
-              title="Type"
-              column={table.getColumn("type")}
-              options={[
-                { label: "Income", value: "income" },
-                { label: "Expense", value: "expense" },
-              ]}
+              title="Grower"
+              column={table.getColumn("grower")}
+              options={growerOptions}
             />
           )}
         </div>
@@ -211,12 +199,12 @@ function TransactionTable({ from, to }: Props) {
             className="ml-auto h-8 lg:flex"
             onClick={() => {
               const data = table.getFilteredRowModel().rows.map((row) => ({
+                quantity: row.original.quantity,
                 strain: row.original.strain,
                 strainIcon: row.original.strainIcon,
-                description: row.original.description,
-                type: row.original.type,
-                amount: row.original.amount,
-                formattedAmount: row.original.formattedAmount,
+                grower: row.original.grower,
+                amountPaid: row.original.amountPaid,
+                formattedAmountPaid: row.original.formattedAmountPaid,
                 date: row.original.date,
               }));
               handleExportCSV(data);
@@ -302,8 +290,6 @@ function TransactionTable({ from, to }: Props) {
   );
 }
 
-export default TransactionTable;
-
 function RowActions({ transaction }: { transaction: TransactionHistoryRow }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -338,3 +324,5 @@ function RowActions({ transaction }: { transaction: TransactionHistoryRow }) {
     </>
   );
 }
+
+export default TransactionTable;

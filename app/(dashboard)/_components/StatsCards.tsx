@@ -6,9 +6,10 @@ import { Card } from "@/components/ui/card";
 import { DateToUTCDate, GetFormatterForUnit } from "@/lib/helpers";
 import { UserSettings } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
+import { Siren, Gem, Vault } from "lucide-react";
 import React, { ReactNode, useCallback, useMemo } from "react";
 import CountUp from "react-countup";
+import { Meteors } from '@/components/ui/meteors';
 
 interface Props {
   from: Date;
@@ -40,9 +41,9 @@ function StatsCards({ from, to, userSettings }: Props) {
         <StatCard
           formatter={formatter}
           value={income}
-          title="Pushed"
+          title="Total Units Moved"
           icon={
-            <TrendingUp className="h-12 w-12 items-center rounded-lg p-2 text-emerald-500 bg-emerald-400/10" />
+            <Gem className="h-14 w-14 p-3 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-white shadow-lg hover:shadow-emerald-200/50 transition-all duration-300 ease-in-out transform hover:scale-105" />
           }
         />
       </SkeletonWrapper>
@@ -51,10 +52,9 @@ function StatsCards({ from, to, userSettings }: Props) {
         <StatCard
           formatter={formatter}
           value={expense}
-          title="Pulled"
+          title="Total Units Sitting"
           icon={
-            <TrendingDown className="h-12 w-12 items-center rounded-lg p-2 text-red-500 bg-red-400/10" />
-          }
+<Siren className="h-14 w-14 p-3 rounded-full bg-gradient-to-br from-red-400 to-pink-500 text-white shadow-lg hover:shadow-red-200/50 transition-all duration-300 ease-in-out transform hover:scale-10" />          }
         />
       </SkeletonWrapper>
 
@@ -62,9 +62,9 @@ function StatsCards({ from, to, userSettings }: Props) {
         <StatCard
           formatter={formatter}
           value={balance}
-          title="Total"
+          title="Inventory Total"
           icon={
-            <Wallet className="h-12 w-12 items-center rounded-lg p-2 text-violet-500 bg-violet-400/10" />
+            <Vault className="h-12 w-12 items-center rounded-lg p-2 text-violet-500 bg-violet-400/10" />
           }
         />
       </SkeletonWrapper>
