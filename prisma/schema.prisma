@@ -28,6 +28,16 @@ model Strain {
   @@unique([name, userId, type])
 }
 
+model Grower {
+  createdAt DateTime @default(now())
+  name      String
+  userId    String
+  icon      String
+  type      String   @default("income")
+
+  @@unique([name, userId, type])
+}
+
 model Transaction {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
