@@ -13,6 +13,14 @@ CREATE TABLE "Strain" (
     "type" TEXT NOT NULL DEFAULT 'income'
 );
 
+CREATE TABLE "Grower" (
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "icon" TEXT NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'income'
+);
+
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL PRIMARY KEY,

@@ -118,7 +118,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            New Intake
+            Add New
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -173,6 +173,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                   </FormItem>
                 )}
               />
+              
 
               <FormField
                 control={form.control}
@@ -235,6 +236,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                   </FormItem>
                 )}
               />
+              
             </div>
           </form>
         </Form>

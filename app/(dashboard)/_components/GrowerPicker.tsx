@@ -110,6 +110,7 @@ function GrowerPicker({ type, onChange }: Props) {
           </CommandGroup>
         </Command>
       </PopoverContent>
+<<<<<<< HEAD
     </Popover>
   );
 }
@@ -124,3 +125,6 @@ function GrowerRow({ grower }: { grower: Grower }) {
     </div>
   );
 }
+=======
+    </
+>>>>>>> 505f05052aeb87eb672a51a3fd561a77347cd52b
